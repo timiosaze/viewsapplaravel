@@ -10,7 +10,7 @@
 						<input type="text" class="form-control" name="title" placeholder="Topic">
 					</div>
 					<div class="form-group">
-						<textarea name="" id="" cols="20" rows="3" class="form-control" placeholder="About Topic"></textarea>
+						<textarea name="body" id="" cols="20" rows="3" class="form-control" placeholder="About Topic"></textarea>
 					</div>
 					<button class="btn-primary btn float-right">Create</button>
 					<div class="clearfix"></div>
@@ -22,66 +22,31 @@
 			<div class="data">
 				<h5>Views</h5>
 				<ul>
-					<li class="no-data text-center">
-						No views yet.
-					</li>
-					<li class="data-list">
-						<div class="data-text">
-							<h4 class="title">SARS</h4>
-							<p class="text-class">Though they are waging war against armed robbers but unfortunately today they are waging war against the progress of the youths. These started with the excessing number of yahoo boys(violent fraudster).</p>
-							<p class="date">October 20, 2020 | 12:14pm</p>
-						</div>
-						<div class="actions">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
-									</form>
+					@forelse ($views as $view)
+						<li class="data-list">
+							<div class="data-text">
+								<h4 class="title">{{$view->title}}</h4>
+								<p class="text-class">{{$view->body}}</p>
+								<p class="date">{{$view->created_at->format('F j,Y | h:ia')}}</p>
+							</div>
+							<div class="actions">
+								<div class="row">
+									<div class="col text-center">
+										<a href="#" class="edit">Edit</a>
+									</div>
+									<div class="col text-center">
+										<form action="">
+											<a href="#" class="delete">Delete</a>
+										</form>
+									</div>
 								</div>
 							</div>
-						</div>
-					</li>
-					<li class="data-list">
-						<div class="data-text">
-							<h4 class="title">SARS</h4>
-							<p class="text-class">Though they are waging war against armed robbers but unfortunately today they are waging war against the progress of the youths. These started with the excessing number of yahoo boys(violent fraudster).</p>
-							<p class="date">October 20, 2020 | 12:14pm</p>
-						</div>
-						<div class="actions">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</li>
-					<li class="data-list">
-						<div class="data-text">
-							<h4 class="title">SARS</h4>
-							<p class="text-class">Though they are waging war against armed robbers but unfortunately today they are waging war against the progress of the youths. These started with the excessing number of yahoo boys(violent fraudster).</p>
-							<p class="date">October 20, 2020 | 12:14pm</p>
-						</div>
-						<div class="actions">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#" class="edit">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#" class="delete">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</li>
+						</li>
+					@empty
+						<li class="no-data text-center">
+							No views yet.
+						</li>
+					@endforelse
 				</ul>
 			</div>
 		</section>

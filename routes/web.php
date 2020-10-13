@@ -14,9 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/views', function() {
-    return view('views.index');
-});
+Route::get('/views', 'ViewController@index')->name('view.index');
 Route::get('/views/edit', function() {
     return view('views.edit');
 });
