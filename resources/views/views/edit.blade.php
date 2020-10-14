@@ -5,12 +5,14 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>Edit View</h3>
-				<form action="">
+				<form action="{{ route('view.update', $view->id) }}" method="POST">
+					@csrf
+					@method('PUT')
 					<div class="form-group">
-						<input type="text" class="form-control" name="title" value="SARS">
+						<input type="text" class="form-control" name="title" value="{{$view->title}}">
 					</div>
 					<div class="form-group">
-						<textarea name="body" id="" cols="20" rows="3" class="form-control">Though they are waging war against armed robbers but unfortunately today they are waging war against the progress of the youths. These started with the excessing number of yahoo boys(violent fraudster).</textarea>
+						<textarea name="body" id="" cols="20" rows="3" class="form-control">{{$view->body}}</textarea>
 					</div>
 					<button class="btn-primary btn float-right">Update</button>
 					<div class="clearfix"></div>

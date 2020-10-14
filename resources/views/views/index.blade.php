@@ -5,7 +5,8 @@
 		<section class="section">
 			<div class="create-form">
 				<h3>New View</h3>
-				<form action="">
+				<form action="{{ route('view.store') }}" method="POST">
+					@csrf
 					<div class="form-group">
 						<input type="text" class="form-control" name="title" placeholder="Topic">
 					</div>
@@ -32,16 +33,38 @@
 							<div class="actions">
 								<div class="row">
 									<div class="col text-center">
-										<a href="#" class="edit">Edit</a>
+										<a href="{{ route('view.edit', $view->id) }}" class="edit">Edit</a>
 									</div>
 									<div class="col text-center">
-										<form action="">
-											<a href="#" class="delete">Delete</a>
-										</form>
+										<a href="#" data-toggle="modal" data-target="#exampleModal{{$view->id}}" class="delete">Delete</a>
 									</div>
 								</div>
 							</div>
 						</li>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal{{$view->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Delete View</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								</div>
+								<div class="modal-body">
+									{{Str::limit($view->title, 20)}}
+								</div>
+								<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<form action="{{ route('view.destroy', $view->id)}}" method="POST">
+									@csrf
+									@method('DELETE')
+									<button type="submit" class="btn btn-primary">Delete</button>
+								</form>
+								</div>
+							</div>
+							</div>
+						</div>
 					@empty
 						<li class="no-data text-center">
 							No views yet.

@@ -15,7 +15,7 @@ class ViewController extends Controller
     public function index()
     {
         //
-        $views = View::all();
+        $views = View::orderBy('updated_at', 'desc')->get();
 
         return view('views.index', ['views' => $views]);
     }
@@ -39,6 +39,18 @@ class ViewController extends Controller
     public function store(Request $request)
     {
         //
+        request()->validate([
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $view = new View();
+        $view->title = request('title');
+        $view->body = request('body');
+        
+        if($view->save()){
+            return redirect('\views');
+        }
     }
 
     /**
@@ -55,34 +67,55 @@ class ViewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\View  $view
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(View $view)
+    public function edit($id)
     {
         //
+        $view = View::findOrFail($id);
+
+        return view('views.edit', compact('view'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\View  $view
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, View $view)
+    public function update(Request $request, $id)
     {
         //
+        request()->validate([
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $view = View::findOrFail($id);
+        $view->title = request('title');
+        $view->body = request('body');
+        
+        if($view->save()){
+            return redirect('/views');
+        }
+        
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\View  $view
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(View $view)
+    public function destroy($id)
     {
         //
+        $view = View::findOrFail($id);
+
+        if($view->delete()){
+            return redirect('/views');
+        }
     }
 }
