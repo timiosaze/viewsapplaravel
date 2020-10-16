@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\View;
+use Auth;
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +26,8 @@ class ViewController extends Controller
     public function index()
     {
         //
-        $views = View::orderBy('updated_at', 'desc')->get();
+        $views = View::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->paginate(7);
+
 
         return view('views.index', ['views' => $views]);
     }
@@ -47,9 +59,12 @@ class ViewController extends Controller
         $view = new View();
         $view->title = request('title');
         $view->body = request('body');
+        $view->user_id = Auth::id();
         
         if($view->save()){
-            return redirect('\views');
+            return redirect('\views')->with('success', 'Successfully saved');
+        } else {
+            return redirect('\views')->with('failure', 'Not saved');
         }
     }
 
@@ -73,7 +88,7 @@ class ViewController extends Controller
     public function edit($id)
     {
         //
-        $view = View::findOrFail($id);
+        $view = View::where('user_id', Auth::id())->findOrFail($id);
 
         return view('views.edit', compact('view'));
     }
@@ -93,14 +108,15 @@ class ViewController extends Controller
             'body' => 'required'
         ]);
 
-        $view = View::findOrFail($id);
+        $view = View::where('user_id', Auth::id())->findOrFail($id);
         $view->title = request('title');
         $view->body = request('body');
         
         if($view->save()){
-            return redirect('/views');
+            return redirect('\views')->with('success', 'Successfully updated');
+        } else {
+            return redirect('\views')->with('failure', 'Not updated');
         }
-        
     }
 
     /**
@@ -112,10 +128,12 @@ class ViewController extends Controller
     public function destroy($id)
     {
         //
-        $view = View::findOrFail($id);
+        $view = View::where('user_id', Auth::id())->findOrFail($id);
 
         if($view->delete()){
-            return redirect('/views');
+            return redirect('\views')->with('success', 'Successfully deleted');
+        } else {
+            return redirect('\views')->with('failure', 'Not deleted');
         }
     }
 }

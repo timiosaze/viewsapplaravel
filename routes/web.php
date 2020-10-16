@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::get('/views', 'ViewController@index')->name('view.index');
 Route::post('/views', 'ViewController@store')->name('view.store');
@@ -22,3 +22,6 @@ Route::delete('/views/{id}', 'ViewController@destroy')->name('view.destroy');
 Route::get('/views/edit', function() {
     return view('views.edit');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

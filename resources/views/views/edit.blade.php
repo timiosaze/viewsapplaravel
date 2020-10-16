@@ -4,6 +4,7 @@
 	
 		<section class="section">
 			<div class="create-form">
+				@include('includes.validation')
 				<h3>Edit View</h3>
 				<form action="{{ route('view.update', $view->id) }}" method="POST">
 					@csrf
