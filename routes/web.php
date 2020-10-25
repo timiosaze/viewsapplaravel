@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+
 Route::get('/views', 'ViewController@index')->name('view.index');
 Route::post('/views', 'ViewController@store')->name('view.store');
 Route::get('/views/{id}/edit', 'ViewController@edit')->name('view.edit');
@@ -24,4 +22,4 @@ Route::get('/views/edit', function() {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
